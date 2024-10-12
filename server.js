@@ -85,6 +85,7 @@ app.post('/extract-text', upload.single('image'), async (req, res) => {
         return res.status(400).json({ error: 'Please provide both news_paper and image file.' });
     }
     const newss = await newsPaper.findOne({_id: newspaper})
+    
     try {
         const extractedText = await runPythonScript(newss.coords, imagePath);
 
