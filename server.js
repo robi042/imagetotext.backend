@@ -16,24 +16,26 @@ const port = 3001;
 app.use(cors());
 app.use(express.json())
 
-const connect = async () =>{
-    try{
-          mongoose.set('strictQuery', false);
-          await mongoose.connect(process.env.DB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-          console.log('Connected MongoDB!')
+export const connect = async () => {
+    try {
+      mongoose.set('strictQuery', false)
+      await mongoose.connect(configEnv.database.DB_URI, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+      })
+      console.log('Connected MongoDB!')
+    } catch (error) {
+      throw error
     }
-    catch(error){
-          throw error;
-    }
-};
-
-mongoose.connection.on('disconnected', () =>{
-    console.log('mpngoDb Disconnected!')
-})
-
-mongoose.connection.on('connected', () =>{
+  }
+  
+  mongoose.connection.on('disconnected', () => {
+    console.log('mongoDb Disconnected!')
+  })
+  
+  mongoose.connection.on('connected', () => {
     console.log('mongoDb Connected!')
-})
+  })
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
